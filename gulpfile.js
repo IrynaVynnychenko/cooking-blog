@@ -29,7 +29,7 @@ gulp.task(
           dirname: '',
         })
       )
-      .pipe(gulp.dest('./dist/images/'))
+      .pipe(gulp.dest('./images/'))
       .pipe(connect.reload())
 );
 
@@ -38,14 +38,14 @@ gulp.task('compile-sass', function () {
     .src(['./src/scss/*.css', './src/scss/*.scss'])
     .pipe(sass())
     .pipe(concat('style.css'))
-    .pipe(gulp.dest('./dist/css/'));
+    .pipe(gulp.dest('./css/'));
 });
 
 gulp.task('compile-sass-components', function () {
   return gulp
     .src(['./src/components/**/*.scss'])
     .pipe(sass())
-    .pipe(gulp.dest((file) => file.base.replace('src', 'dist')));
+    .pipe(gulp.dest((file) => file.base.replace('src', '')));
 });
 
 gulp.task('minify-css', function () {
@@ -58,7 +58,7 @@ gulp.task('minify-css', function () {
     )
     .pipe(concat('style.css'))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('./dist/css'))
+    .pipe(gulp.dest('./css'))
     .pipe(connect.reload());
 });
 
@@ -82,7 +82,7 @@ gulp.task('pageHtml', function () {
     //     return `?${timestamp}`;
     //   })
     // )
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./'))
     .pipe(connect.reload());
 });
 
@@ -90,20 +90,16 @@ gulp.task('minify-main-js', function () {
   return gulp
     .src(['./src/js/*.js'])
     .pipe(named())
-    .pipe(gulp.dest('./dist/js/'))
+    .pipe(gulp.dest('./js/'))
     .pipe(connect.reload());
 });
 
 gulp.task('copy-fonts', function () {
-  return gulp.src(['./src/fonts/*']).pipe(gulp.dest('./dist/fonts/'));
-});
-
-gulp.task('copy-simple-picker', function () {
-  return gulp.src(['./node_modules/simplepicker/dist/simplepicker.css']).pipe(gulp.dest('./dist/css/'));
+  return gulp.src(['./src/fonts/*']).pipe(gulp.dest('./fonts/'));
 });
 
 gulp.task('copy-js', function () {
-  return gulp.src(['./src/js/libs/*.js']).pipe(gulp.dest('./dist/js/libs'));
+  return gulp.src(['./src/js/libs/*.js']).pipe(gulp.dest('./js/libs'));
 });
 
 // Чистим директорию назначения и делаем ребилд, чтобы удаленные из проекта файлы не остались
@@ -118,7 +114,7 @@ gulp.task('clean', function () {
 
 gulp.task('clean-old-css', function () {
   return gulp
-    .src(['./dist/css'], {
+    .src(['./css'], {
       read: false,
       allowEmpty: true,
     })
@@ -127,7 +123,7 @@ gulp.task('clean-old-css', function () {
 
 gulp.task('clean-old-js', function () {
   return gulp
-    .src(['./dist/js'], {
+    .src(['./js'], {
       read: false,
       allowEmpty: true,
     })
@@ -136,12 +132,12 @@ gulp.task('clean-old-js', function () {
 
 gulp.task('connect', function () {
   const server = connect.server({
-    root: './dist/',
+    root: './',
     port: '8509',
     livereload: true,
   });
 
-  return gulp.src('./dist/').pipe(
+  return gulp.src('./').pipe(
     open({
       uri: `http://localhost:8509`,
     })
@@ -178,7 +174,6 @@ const build = gulp.series(
   'pageHtml',
   'clean',
   'copy-fonts',
-  'copy-simple-picker',
   'image-min'
 );
 
