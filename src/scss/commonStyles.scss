@@ -34,4 +34,29 @@ body {
   --black: #000;
 }
 
+.main {
+  padding-top: 120px;
+  padding-bottom: 120px;
+
+  @media(max-width: 991px) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  @media(max-width: 768px) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 @import "./../components/header/header.scss";
+@import "./../components/breakfasts/breakfasts.scss";
